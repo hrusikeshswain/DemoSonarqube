@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "DemoSonarqube",
+    "slug": "DemoSonarqube",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "DemoSonarqube"
+}
