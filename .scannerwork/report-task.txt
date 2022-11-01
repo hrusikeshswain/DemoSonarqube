@@ -1,0 +1,6 @@
+projectKey=DemoSonarqube
+serverUrl=http://localhost:9000
+serverVersion=9.7.0.61563
+dashboardUrl=http://localhost:9000/dashboard?id=DemoSonarqube
+ceTaskId=AYQv3lCi1z8TlzZu7FQm
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYQv3lCi1z8TlzZu7FQm
