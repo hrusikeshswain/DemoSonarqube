@@ -13,10 +13,35 @@ jobs:
           name: node version
           command: node --version
 
+  upload_artifact:
+    docker:
+      - image: cimg/openjdk:17.0
+        # auth:
+        #   username: mydockerhub-user
+        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: mvn dependency:go-offline
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Install JFrog CLI
+          command: curl -fL https://getcli.jfrog.io | sh
+      - run:
+          name: Push to Artifactory
+          command: |
+            - ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
+            - ./jfrog rt u android/app/release app-release.apk --build-name=demo_build --build-number=1.0.0
+            - ./jfrog rt bce demo_build 1.0.0  # collects all environment variables on the agent
+            - ./jfrog rt bp demo_build 1.0.0  # attaches ^^ to the build in artifactory
+
 workflows:
   test-deploy:
     jobs:
       - test
+      - upload_artifact
 # version: 2.1
 # orbs:
 #   sonarcloud: sonarsource/sonarcloud@1.1.0
