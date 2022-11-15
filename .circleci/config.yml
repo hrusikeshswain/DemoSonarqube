@@ -6,7 +6,13 @@ jobs:
       - image: cimg/node:19.0.0
     steps:
       - checkout
-      - run: node --version
+      - run: 
+         name: Install dependencies
+         command: npm install
+      - run: 
+         name: Run tests
+         command: npm run tests   
+
 
 workflows:
   test-deploy:
