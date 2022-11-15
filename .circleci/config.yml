@@ -30,8 +30,7 @@ jobs:
           command: curl -fL https://getcli.jfrog.io | sh
       - run:
           name: Push to Artifactory
-          command: |
-            - jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
+          command: jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
             
 workflows:
   test-deploy:
