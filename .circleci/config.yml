@@ -15,7 +15,7 @@ jobs:
 
   upload_artifact:
     docker:
-       - image: cimg/node:19.0.0
+      - image: cimg/node:19.0.0
         # auth:
         #   username: mydockerhub-user
         #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
@@ -26,24 +26,22 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
-          name: Install JFrog CLI
-          command: echo "Checking for existence of CLI"
-          set +e
-          jfrog -v
-          if [ $? -gt 0 ]; then
-            echo "Not found, installing latest"
-            curl -fL https://getcli.jfrog.io | sh
-            chmod a+x jfrog && sudo mv jfrog /usr/local/bin
-          else
-            echo "CLI exists, skipping install"
-          fi
-      - run:
-          name: Jfrog
-          command: jfrog --version
+          name: Setup JFrog
+          command: |
+            npm install -g jfrog-cli-go
+            jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
+            jfrog --version    
+      # - run:
+      #     name: Install JFrog CLI
+      #     command: sudo npm install -g --unsafe-perm=true --allow-root
+      # - run:
+      #     name: Push to Artifactory
+      #     command: jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
 
 workflows:
   test-deploy:
     jobs:
+      - test
       - upload_artifact
 # version: 2.1
 # orbs:
