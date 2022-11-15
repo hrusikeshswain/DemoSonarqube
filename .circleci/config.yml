@@ -35,7 +35,7 @@ jobs:
           name: Upload JFrog
           command: |
              jfrog --version
-             jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/  
+             jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/{1}/ --recursive=false
             
       # - run:
       #     name: Install JFrog CLI
