@@ -31,16 +31,16 @@ jobs:
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
             jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false --enc-password=false
             jfrog --version
-      - run:
-          name: Upload JFrog
-          command: |
-             jfrog --version
-             jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false    
+      # - run:
+      #     name: Upload JFrog
+      #     command: |
+      #        jfrog --version
+      #        jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false    
       - run:
           name: Scan build
           command: |
              jfrog --version
-             jfrog rt scan-build    
+             jfrog scan "android/app/release/app-release.apk"    
                   
       # - run:
       #     name: Install JFrog CLI
