@@ -1,34 +1,55 @@
-version: 2.1
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.1.0
+
+vserion: 2.1
+
+workflows:
+  test-deploy:
+    jobs:
+      -test
+
 jobs:
-  build:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/node:19.0.0
+  test:
+     docker:
+      - image: cimg/node:14.13.0
     steps:
       - checkout
       - run: node --version
-      - run:
-          name: Update NPM
-          command: "sudo npm install -g npm@5"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install Dependencies
-          command: yarn install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: Run tests
-          command: npm run test
-      - sonarcloud/scan    
 
 
-workflows:
-  main:
-    jobs:
-      - build:
-          context: sonarcloud       
+# version: 2.1
+# orbs:
+#   sonarcloud: sonarsource/sonarcloud@1.1.0
+  
+
+# jobs:
+#   build:
+#     working_directory: ~/repo
+#     docker:
+#       - image: cimg/node:19.0.0
+#     steps:
+#       - checkout
+#       - run: node --version
+#       - run:
+#           name: Update NPM
+#           command: "sudo npm install -g npm@5"
+#       - restore_cache:
+#           key: dependency-cache-{{ checksum "package.json" }}
+#       - run:
+#           name: Install Dependencies
+#           command: yarn install
+#       - save_cache:
+#           key: dependency-cache-{{ checksum "package.json" }}
+#           paths:
+#             - ./node_modules
+#       - run:
+#           name: Run tests
+#           command: npm run test
+#       - sonarcloud/scan    
+
+
+# workflows:
+#   main:
+#     jobs:
+#       - build:
+#           context: sonarcloud       
+
+# # VS Code Extension Version: 1.0.2
