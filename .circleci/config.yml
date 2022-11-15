@@ -1,24 +1,21 @@
-
 vserion: 2.1
-
-workflows:
-  test-deploy:
-    jobs:
-      -test
 
 jobs:
   test:
-     docker:
+    docker:
       - image: cimg/node:14.13.0
     steps:
       - checkout
       - run: node --version
 
-
+workflows:
+  test-deploy:
+    jobs:
+      - test
+      
 # version: 2.1
 # orbs:
 #   sonarcloud: sonarsource/sonarcloud@1.1.0
-  
 
 # jobs:
 #   build:
@@ -43,13 +40,12 @@ jobs:
 #       - run:
 #           name: Run tests
 #           command: npm run test
-#       - sonarcloud/scan    
-
+#       - sonarcloud/scan
 
 # workflows:
 #   main:
 #     jobs:
 #       - build:
-#           context: sonarcloud       
+#           context: sonarcloud
 
 # # VS Code Extension Version: 1.0.2
