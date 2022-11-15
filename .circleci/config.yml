@@ -27,7 +27,7 @@ jobs:
           command: npm install
       - run:
           name: Install JFrog CLI
-          command: npm install -g jfrog-cli-v2-jf && jf intro
+          command: sudo npm install -g jfrog-cli-v2-jf && jf intro
       - run:
           name: Push to Artifactory
           command: jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
