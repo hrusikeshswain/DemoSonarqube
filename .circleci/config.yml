@@ -29,7 +29,7 @@ jobs:
           name: Setup JFrog
           command: |
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --password $ARTIFACTORY_PASSWORD
+            jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
             jfrog rt u android/app/release app-release.apk --build-name=demo_build --build-number=1.0.0
             jfrog rt bce demo_build 1.0.0
             jfrog rt bp demo_build 1.0.0
