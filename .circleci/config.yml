@@ -35,7 +35,7 @@ jobs:
           name: Upload JFrog
           command: |
              jfrog --version
-            #  jfrog rt u android/app/release app-release.apk --build-name=demo_build --build-number=1.0.0      
+             jfrog rt u "android/app/release/app-release.apk" --build-name=demo_build --build-number=1.0.0  --flat=false    
             
       # - run:
       #     name: Install JFrog CLI
