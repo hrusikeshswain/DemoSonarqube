@@ -19,10 +19,9 @@ jobs:
         # auth:
         #   username: mydockerhub-user
         #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    working_directory: ~/repo
+    # working_directory: ~/repo
     steps:
       - checkout
-      - run: mvn dependency:go-offline
       - run:
           name: Install dependencies
           command: npm install
