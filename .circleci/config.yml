@@ -36,7 +36,12 @@ jobs:
           command: |
              jfrog --version
              jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false    
-            
+      - run:
+          name: Scan build
+          command: |
+             jfrog --version
+             jfrog rt scan-build    
+                  
       # - run:
       #     name: Install JFrog CLI
       #     command: sudo npm install -g --unsafe-perm=true --allow-root
