@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Setup JFrog
           command: |
-            npm install -g jfrog-cli-go
+            sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
             jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
             jfrog --version    
       # - run:
