@@ -29,9 +29,9 @@ jobs:
           name: Setup JFrog
           command: |
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jfrog rt config --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
+            # jfrog rt config --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
             version="1.0.0"
-            # jf config add https://hemantaswn.jfrog.io --url "https://hemantaswn.jfrog.io" --user hemantaswn@gmail.com --password Shivapal251@ --interactive=false
+            jf config add https://hemantaswn.jfrog.io --url "https://hemantaswn.jfrog.io" --user hemantaswn@gmail.com --password Shivapal251@ --interactive=false
             jf npmc --server-id-resolve=https://hemantaswn.jfrog.io --server-id-deploy=https://hemantaswn.jfrog.io --repo-resolve=mobile-globalplus-npm-virtual --repo-deploy=mobile-globalplus-npm-virtual
             jf rt bag mobile-globalplus $version --project=mobile
             jf rt bce mobile-globalplus $version --project=mobile
