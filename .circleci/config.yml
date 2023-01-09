@@ -29,19 +29,14 @@ jobs:
           name: Setup JFrog
           command: |
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false --enc-password=false
-            jfrog --version
-      # - run:
-      #     name: Upload JFrog
-      #     command: |
-      #        jfrog --version
-      #        jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false    
-      - run:
-          name: Scan build
-          command: |
-             jfrog --version
-             jfrog scan "android/app/release/app-release.apk"    
-                  
+            jfrog rt config --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
+            version="1.0.0"
+            # jf config add https://hemantaswn.jfrog.io --url "https://hemantaswn.jfrog.io" --user hemantaswn@gmail.com --password Shivapal251@ --interactive=false
+            jf npmc --server-id-resolve=https://hemantaswn.jfrog.io --server-id-deploy=https://hemantaswn.jfrog.io --repo-resolve=mobile-globalplus-npm-virtual --repo-deploy=mobile-globalplus-npm-virtual
+            jf rt bag mobile-globalplus $version --project=mobile
+            jf rt bce mobile-globalplus $version --project=mobile
+            jf npm publish --build-name=mobile-globalplus --build-number=$version --project=mobile
+            jf rt bp mobile-globalplus $version --project=mobile
       # - run:
       #     name: Install JFrog CLI
       #     command: sudo npm install -g --unsafe-perm=true --allow-root
@@ -88,4 +83,4 @@ workflows:
 #       - build:
 #           context: sonarcloud
 
-# VS Code Extension Version: 1.0.2
+# VS Code Extension Version: 1.5.1
