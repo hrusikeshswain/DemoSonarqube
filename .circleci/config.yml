@@ -38,7 +38,7 @@ jobs:
             jf rt bag mobile-globalplus $version --project=mobile
             jf rt bce mobile-globalplus $version --project=mobile
             jf npm publish --build-name=mobile-globalplus --build-number=$version --project=mobile
-            jf rt bp mobile-globalplus $version --project=mobile
+            jf rt bp mobile-globalplus $version
       # - run:
       #     name: Install JFrog CLI
       #     command: sudo npm install -g --unsafe-perm=true --allow-root
