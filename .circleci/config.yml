@@ -28,7 +28,9 @@ jobs:
       - run:
           name: Setup JFrog
           command: |
-            sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
+            # sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
+            sudo chown -R $(whoami) /usr/local/bin
+            sudo curl -fL https://install-cli.jfrog.io | sh
             # jfrog rt config --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
             version="1.0.0"
             jfrog config add https://hemantaswn.jfrog.io --url "https://hemantaswn.jfrog.io" --user hemantaswn@gmail.com --password Shivapal251@ --interactive=false
