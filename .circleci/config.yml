@@ -26,7 +26,7 @@ jobs:
           name: Setup JFrog
           command: |
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jfrog config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+            jf config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false --enc-password=false             
             jfrog --version
       - run:
           name: Upload JFrog
@@ -37,4 +37,3 @@ workflows:
   test-deploy:
     jobs:
       - upload_artifact
-
