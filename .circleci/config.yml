@@ -26,14 +26,15 @@ jobs:
           name: Setup JFrog
           command: |
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jf config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false  
-            jf --version
+            jfrog config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+            jfrog --version
       - run:
           name: Upload JFrog
           command: |
-            jf --version
-            jf rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false
+            jfrog --version
+            jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false
 workflows:
   test-deploy:
     jobs:
       - upload_artifact
+
