@@ -16,9 +16,6 @@ jobs:
   upload_artifact:
     docker:
       - image: cimg/node:19.0.0
-        # auth:
-        #   username: mydockerhub-user
-        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     working_directory: ~/demosonarqube
     steps:
       - checkout
@@ -28,59 +25,15 @@ jobs:
       - run:
           name: Setup JFrog
           command: |
-            sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false --enc-password=false
-            jfrog --version
+            sudo chown -R $(whoami) /usr/local/bin
+            sudo curl -fL https://install-cli.jfrog.io | sh
+            jf config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
       - run:
           name: Upload JFrog
           command: |
-            jfrog --version
-            jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false
-
-      # - run:
-      #     name: Install JFrog CLI
-      #     command: sudo npm install -g --unsafe-perm=true --allow-root
-      # - run:
-      #     name: Push to Artifactory
-      #     command: jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
-
+            jf --version
+            jf rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false
 workflows:
   test-deploy:
     jobs:
       - upload_artifact
-# version: 2.1
-# orbs:
-#   sonarcloud: sonarsource/sonarcloud@1.1.0
-
-# jobs:
-#   build:
-#     working_directory: ~/repo
-#     docker:
-#       - image: cimg/node:19.0.0
-#     steps:
-#       - checkout
-#       - run: node --version
-#       - run:
-#           name: Update NPM
-#           command: "sudo npm install -g npm@5"
-#       - restore_cache:
-#           key: dependency-cache-{{ checksum "package.json" }}
-#       - run:
-#           name: Install Dependencies
-#           command: yarn install
-#       - save_cache:
-#           key: dependency-cache-{{ checksum "package.json" }}
-#           paths:
-#             - ./node_modules
-#       - run:
-#           name: Run tests
-#           command: npm run test
-#       - sonarcloud/scan
-
-# workflows:
-#   main:
-#     jobs:
-#       - build:
-#           context: sonarcloud
-
-# VS Code Extension Version: 1.0.2
