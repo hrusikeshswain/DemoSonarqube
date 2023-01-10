@@ -25,9 +25,9 @@ jobs:
       - run:
           name: Setup JFrog
           command: |
-            sudo chown -R $(whoami) /usr/local/bin
-            sudo curl -fL https://install-cli.jfrog.io | sh
-            jf config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+            sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
+            jf config add --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false  
+            jf --version
       - run:
           name: Upload JFrog
           command: |
