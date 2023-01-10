@@ -16,6 +16,9 @@ jobs:
   upload_artifact:
     docker:
       - image: cimg/node:19.0.0
+        # auth:
+        #   username: mydockerhub-user
+        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     working_directory: ~/demosonarqube
     steps:
       - checkout
@@ -25,22 +28,15 @@ jobs:
       - run:
           name: Setup JFrog
           command: |
-            # sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
             sudo npm install -g jfrog-cli-go --unsafe-perm=true --allow-root
-            jfrog rt config --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
-            jfrog rt u android/app/release app-release.apk --build-name=demo_build --build-number=1.0.0
-            jfrog rt bce demo_build 1.0.0
-            jfrog rt bp demo_build 1.0.0
-            # sudo chown -R $(whoami) /usr/local/bin
-            # sudo curl -fL https://install-cli.jfrog.io | sh
-            # # jfrog rt config --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD
-            # version="1.0.0"
-            # jf config add https://hemantaswn.jfrog.io --url "https://hemantaswn.jfrog.io" --user hemantaswn@gmail.com --password Shivapal251@ --interactive=false
-            # jf npmc --server-id-resolve=https://hemantaswn.jfrog.io --server-id-deploy=https://hemantaswn.jfrog.io --repo-resolve=mobile-globalplus-npm --repo-deploy=mobile-globalplus-npm
-            # jf rt bag mobile-globalplus $version --project=mobile
-            # jf rt bce mobile-globalplus $version --project=mobile
-            # jf npm publish --build-name=mobile-globalplus --build-number=$version --project=mobile
-            # jf rt bp mobile-globalplus $version
+            jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false --enc-password=false
+            jfrog --version
+      - run:
+          name: Upload JFrog
+          command: |
+            jfrog --version
+            jfrog rt u "android/app/release/app-release.apk" demosonarqube-generic-local/ --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD  --flat=false
+
       # - run:
       #     name: Install JFrog CLI
       #     command: sudo npm install -g --unsafe-perm=true --allow-root
@@ -48,11 +44,10 @@ jobs:
       #     name: Push to Artifactory
       #     command: jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
 
-# workflows:
-#   test-deploy:
-#     jobs:
-#       - upload_artifact
-#       context: sonarcloud
+workflows:
+  test-deploy:
+    jobs:
+      - upload_artifact
 # version: 2.1
 # orbs:
 #   sonarcloud: sonarsource/sonarcloud@1.1.0
@@ -82,9 +77,10 @@ jobs:
 #           command: npm run test
 #       - sonarcloud/scan
 
-workflows:
-  main:
-    jobs:
-      - upload_artifact:
-          context: sonarcloud
-# VS Code Extension Version: 1.5.1
+# workflows:
+#   main:
+#     jobs:
+#       - build:
+#           context: sonarcloud
+
+# VS Code Extension Version: 1.0.2
