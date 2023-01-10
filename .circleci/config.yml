@@ -48,10 +48,11 @@ jobs:
       #     name: Push to Artifactory
       #     command: jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
 
-workflows:
-  test-deploy:
-    jobs:
-      - upload_artifact
+# workflows:
+#   test-deploy:
+#     jobs:
+#       - upload_artifact
+#       context: sonarcloud
 # version: 2.1
 # orbs:
 #   sonarcloud: sonarsource/sonarcloud@1.1.0
@@ -81,10 +82,9 @@ workflows:
 #           command: npm run test
 #       - sonarcloud/scan
 
-# workflows:
-#   main:
-#     jobs:
-#       - build:
-#           context: sonarcloud
-
+workflows:
+  main:
+    jobs:
+      - upload_artifact:
+          context: sonarcloud
 # VS Code Extension Version: 1.5.1
